@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Сборник Калькуляторов</title>
+<style>
+body{margin:0;font-family:Arial;background:linear-gradient(135deg,#1e3a8a,#3b0764);color:white;text-align:center;min-height:100vh}
+.menu{margin-top:20px}
+button{
+padding:12px;margin:5px;border:none;border-radius:14px;
+background:white;color:#1e3a8a;font-size:14px;font-weight:bold;
+cursor:pointer;transition:0.3s
+}
+button:hover{transform:scale(1.08);box-shadow:0 0 15px white}
+button:active{transform:scale(0.9)}
+.box{
+display:none;background:rgba(255,255,255,0.1);
+margin:20px auto;padding:20px;border-radius:20px;
+width:440px;animation:fade 0.3s;border:1px solid rgba(255,255,255,0.25)
+}
+@keyframes fade{from{opacity:0;transform:translateY(20px)} to{opacity:1}}
+input, select{
+width:85%;padding:10px;margin:5px 0;font-size:16px;border:none;border-radius:10px;text-align:center;outline:none
+}
+.res-container{margin-top:15px;background:rgba(0,0,0,0.25);padding:15px;border-radius:15px}
+#kout,#mout,#eout,#tout,#siout{font-size:21px;font-weight:bold;color:#fff}
+.exp{font-size:13px;color:#ddd;margin-top:5px;font-style:italic}
+.sub{margin-top:12px;border-top:1px solid rgba(255,255,255,0.15);padding-top:12px}
+h3{font-size:16px;margin:12px 0 6px 0;color:#ddd}
+.mini-btn{padding:8px;font-size:12px;background:#e0e7ff;color:#1e3a8a}
+</style>
+</head>
+<body>
+<h1>Физика</h1>
+
+<div class="menu">
+<button onclick="show('kin')">Кинематика</button>
+<button onclick="show('mech')">Механика</button>
+<button onclick="show('elect')">Электричество</button>
+<button onclick="show('therm')">Термодинамика</button>
+<button onclick="show('si')">Система СИ (конвертер)</button>
+<button onclick="show('gameMenu')">Тренажёр</button>
+</div>
+
+<!-- КИНЕМАТИКА -->
+<div id="kin" class="box">
+    <div style="display:flex;flex-wrap:wrap;justify-content:center">
+        <button class="mini-btn" onclick="showSub('k1')">Равномерное</button>
+        <button class="mini-btn" onclick="showSub('k2')">Ускоренное</button>
+        <button class="mini-btn" onclick="showSub('k3')">Свободное падение</button>
+    </div>
+    <div id="k1" class="sub">
+        <h3>s = v · t</h3>
+        <input id="v_kin" placeholder="Скорость v (м/с)"><input id="t_kin" placeholder="Время t (с)">
+        <button onclick="calcKPath()">Путь s</button>
+        <h3>v = s / t</h3>
+        <input id="s_kin" placeholder="Путь s (м)"><input id="t_kin2" placeholder="Время t (с)">
+        <button onclick="calcKVel()">Скорость v</button>
+    </div>
+    <div id="k2" class="sub" style="display:none">
+        <h3>v = u + a·t</h3>
+        <input id="u_k2" placeholder="u (м/с)"><input id="a_k2" placeholder="a (м/с²)"><input id="t_k2" placeholder="t (с)">
+        <button onclick="calcK2Vel()">Конечная скорость v</button>
+        <h3>s = u·t + ½a·t²</h3>
+        <input id="u_k22" placeholder="u"><input id="a_k22" placeholder="a"><input id="t_k22" placeholder="t">
+        <button onclick="calcK2Path()">Путь s</button>
+    </div>
+    <div id="k3" class="sub" style="display:none">
+        <h3>Свободное падение (g = 9.81 м/с²)</h3>
+        <input id="t_k3" placeholder="t (с)"> <button onclick="calcFallVel()">v = g·t</button>
+        <input id="h_k3" placeholder="h (м)"> <button onclick="calcFallTime()">t = √(2h/g)</button>
+        <input id="t_k32" placeholder="t (с)"> <button onclick="calcFallPath()">h = ½g·t²</button>
+    </div>
+    <div class="res-container">
+        <div id="kout">...</div>
+        <div id="kexp" class="exp">Результат кинематики</div>
+    </div>
+</div>
+
+<div id="mech" class="box">
+    <div style="display:flex;flex-wrap:wrap;justify-content:center">
+        <button class="mini-btn" onclick="showSub('m1')">Сила и импульс</button>
+        <button class="mini-btn" onclick="showSub('m2')">Энергия и работа</button>
+    </div>
+    <div id="m1" class="sub">
+        <h3>F = m·a</h3>
+        <input id="m_m1" placeholder="m (кг)"><input id="a_m1" placeholder="a (м/с²)">
+        <button onclick="calcForce()">Сила F (Н)</button>
+        <h3>p = m·v</h3>
+        <input id="m_m12" placeholder="m (кг)"><input id="v_m1" placeholder="v (м/с)">
+        <button onclick="calcImpulse()">Импульс p</button>
+    </div>
+    <div id="m2" class="sub" style="display:none">
+        <h3>Ek = ½ m v²</h3>
+        <input id="m_m2" placeholder="m"><input id="v_m2" placeholder="v">
+        <button onclick="calcKinE()">Кинетическая энергия</button>
+        <h3>Ep = m g h</h3>
+        <input id="m_m22" placeholder="m"><input id="h_m2" placeholder="h (м)">
+        <button onclick="calcPotE()">Потенциальная энергия</button>
+        <h3>A = F · s</h3>
+        <input id="f_m2" placeholder="F (Н)"><input id="s_m2" placeholder="s (м)">
+        <button onclick="calcWork()">Работа A (Дж)</button>
+    </div>
+    <div class="res-container">
+        <div id="mout">...</div>
+        <div id="mexp" class="exp">Результат механики</div>
+    </div>
+</div>
+
+<div id="elect" class="box">
+    <div style="display:flex;flex-wrap:wrap;justify-content:center">
+        <button class="mini-btn" onclick="showSub('e1')">Закон Ома</button>
+        <button class="mini-btn" onclick="showSub('e2')">Мощность и работа тока</button>
+    </div>
+    <div id="e1" class="sub">
+        <h3>I = U / R</h3>
+        <input id="u_e1" placeholder="U (В)"><input id="r_e1" placeholder="R (Ом)">
+        <button onclick="calcCurrent()">Сила тока I (А)</button>
+        <h3>U = I · R</h3>
+        <input id="i_e1" placeholder="I (А)"><input id="r_e12" placeholder="R (Ом)">
+        <button onclick="calcVoltage()">Напряжение U (В)</button>
+    </div>
+    <div id="e2" class="sub" style="display:none">
+        <h3>P = U · I</h3>
+        <input id="u_e2" placeholder="U (В)"><input id="i_e2" placeholder="I (А)">
+        <button onclick="calcPowerEl()">Мощность P (Вт)</button>
+        <h3>A = U · I · t</h3>
+        <input id="u_e22" placeholder="U"><input id="i_e22" placeholder="I"><input id="t_e2" placeholder="t (с)">
+        <button onclick="calcWorkEl()">Работа тока A (Дж)</button>
+    </div>
+    <div class="res-container">
+        <div id="eout">...</div>
+        <div id="eexp" class="exp">Результат электричества</div>
+    </div>
+</div>
+
+<div id="therm" class="box">
+    <div style="display:flex;flex-wrap:wrap;justify-content:center">
+        <button class="mini-btn" onclick="showSub('t1')">Количество теплоты</button>
+        <button class="mini-btn" onclick="showSub('t2')">Работа и КПД</button>
+    </div>
+    <div id="t1" class="sub">
+        <h3>Q = c · m · Δt</h3>
+        <input id="c_t1" placeholder="c (Дж/(кг·°C))" value="4200"><input id="m_t1" placeholder="m (кг)"><input id="dt_t1" placeholder="Δt (°C)">
+        <button onclick="calcHeat()">Q (Дж)</button>
+        <h3>Q = λ · m (плавление)</h3>
+        <input id="m_t12" placeholder="m"><input id="l_t1" placeholder="λ (Дж/кг)" value="334000">
+        <button onclick="calcLatent()">Q (плавление)</button>
+    </div>
+    <div id="t2" class="sub" style="display:none">
+        <h3>КПД = (Aпол / Aзат) · 100%</h3>
+        <input id="a_pol" placeholder="Полезная работа"><input id="a_zat" placeholder="Затраченная работа">
+        <button onclick="calcEfficiency()">КПД (%)</button>
+    </div>
+    <div class="res-container">
+        <div id="tout">...</div>
+        <div id="texp" class="exp">Результат термодинамики</div>
+    </div>
+</div>
+
+<div id="si" class="box">
+    <h2>Система СИ + Конвертер единиц</h2>
+    <select id="convType" onchange="updateConverter()">
+        <option value="length">Длина</option>
+        <option value="mass">Масса</option>
+        <option value="time">Время</option>
+        <option value="speed">Скорость</option>
+        <option value="force">Сила</option>
+        <option value="energy">Энергия</option>
+        <option value="power">Мощность</option>
+        <option value="pressure">Давление</option>
+    </select>
+    <input id="valFrom" placeholder="Значение" type="number" oninput="convertUnits()">
+    <select id="unitFrom" onchange="convertUnits()"></select>
+    <select id="unitTo" onchange="convertUnits()"></select>
+    <div id="siResult" style="font-size:22px;margin-top:15px;font-weight:bold"></div>
+    <div class="exp">Все расчёты в калькуляторе ведутся в единицах СИ</div>
+</div>
+
+<div id="gameMenu" class="box">
+    <h2>Тренажёр по физике</h2>
+    <button onclick="gType='kin'">Кинематика</button>
+    <button onclick="gType='mech'">Механика</button>
+    <button onclick="gType='elect'">Электричество</button>
+    <button onclick="gType='therm'">Термодинамика</button>
+    <button onclick="gType='mix'">Смешанный</button>
+    <h3>Режим</h3>
+    <button onclick="gMode='norm'">Обычный</button>
+    <button onclick="gMode='time'">На время (30 сек)</button>
+    <br><br>
+    <button onclick="startGame()" style="width:100%;background:#1e3a8a;color:white">НАЧАТЬ ТРЕНИРОВКУ</button>
+</div>
+
+<div id="game" class="box">
+    <div id="timer" style="font-size:22px;color:yellow"></div>
+    <p id="q" style="font-size:26px;font-weight:bold"></p>
+    <input id="ans" type="number" placeholder="Твой ответ">
+    <button onclick="checkGame()" style="width:100%">ПРОВЕРИТЬ</button>
+    <p>Очки: <span id="score">0</span></p>
+    <div id="gameHint" class="exp"></div>
+    <button onclick="show('gameMenu')" style="background:none;color:white;border:1px solid white;margin-top:10px">Выйти</button>
+</div>
+
+<script>
+function show(id){
+    document.querySelectorAll(".box").forEach(x=>x.style.display="none");
+    document.getElementById(id).style.display="block";
+}
+function showSub(id){
+    document.querySelectorAll(".sub").forEach(x=>x.style.display="none");
+    document.getElementById(id).style.display="block";
+}
+
+function calcKPath(){ let v=parseFloat(document.getElementById('v_kin').value)||0; let t=parseFloat(document.getElementById('t_kin').value)||0;
+    document.getElementById('kout').innerHTML = `s = ${(v*t).toFixed(2)} м`; document.getElementById('kexp').innerHTML = "s = v · t"; }
+function calcKVel(){ let s=parseFloat(document.getElementById('s_kin').value)||0; let t=parseFloat(document.getElementById('t_kin2').value)||0;
+    let v = t? s/t : 0; document.getElementById('kout').innerHTML = `v = ${v.toFixed(2)} м/с`; document.getElementById('kexp').innerHTML = "v = s / t"; }
+function calcK2Vel(){ let u=parseFloat(document.getElementById('u_k2').value)||0; let a=parseFloat(document.getElementById('a_k2').value)||0; let t=parseFloat(document.getElementById('t_k2').value)||0;
+    document.getElementById('kout').innerHTML = `v = ${(u + a*t).toFixed(2)} м/с`; document.getElementById('kexp').innerHTML = "v = u + a·t"; }
+function calcK2Path(){ let u=parseFloat(document.getElementById('u_k22').value)||0; let a=parseFloat(document.getElementById('a_k22').value)||0; let t=parseFloat(document.getElementById('t_k22').value)||0;
+    document.getElementById('kout').innerHTML = `s = ${(u*t + 0.5*a*t*t).toFixed(2)} м`; document.getElementById('kexp').innerHTML = "s = u·t + ½a·t²"; }
+function calcFallVel(){ let t=parseFloat(document.getElementById('t_k3').value)||0; let g=9.81;
+    document.getElementById('kout').innerHTML = `v = ${(g*t).toFixed(2)} м/с`; document.getElementById('kexp').innerHTML = "v = g·t"; }
+function calcFallTime(){ let h=parseFloat(document.getElementById('h_k3').value)||0; let g=9.81;
+    document.getElementById('kout').innerHTML = `t = ${Math.sqrt(2*h/g).toFixed(2)} с`; document.getElementById('kexp').innerHTML = "t = √(2h/g)"; }
+function calcFallPath(){ let t=parseFloat(document.getElementById('t_k32').value)||0; let g=9.81;
+    document.getElementById('kout').innerHTML = `h = ${(0.5*g*t*t).toFixed(2)} м`; document.getElementById('kexp').innerHTML = "h = ½g·t²"; }
+
+function calcForce(){ let m=parseFloat(document.getElementById('m_m1').value)||0; let a=parseFloat(document.getElementById('a_m1').value)||0;
+    document.getElementById('mout').innerHTML = `F = ${(m*a).toFixed(2)} Н`; document.getElementById('mexp').innerHTML = "F = m·a"; }
+function calcImpulse(){ let m=parseFloat(document.getElementById('m_m12').value)||0; let v=parseFloat(document.getElementById('v_m1').value)||0;
+    document.getElementById('mout').innerHTML = `p = ${(m*v).toFixed(2)} кг·м/с`; document.getElementById('mexp').innerHTML = "p = m·v"; }
+function calcKinE(){ let m=parseFloat(document.getElementById('m_m2').value)||0; let v=parseFloat(document.getElementById('v_m2').value)||0;
+    document.getElementById('mout').innerHTML = `Ek = ${(0.5*m*v*v).toFixed(2)} Дж`; document.getElementById('mexp').innerHTML = "Ek = ½mv²"; }
+function calcPotE(){ let m=parseFloat(document.getElementById('m_m22').value)||0; let h=parseFloat(document.getElementById('h_m2').value)||0;
+    document.getElementById('mout').innerHTML = `Ep = ${(m*9.81*h).toFixed(2)} Дж`; document.getElementById('mexp').innerHTML = "Ep = mgh"; }
+function calcWork(){ let f=parseFloat(document.getElementById('f_m2').value)||0; let s=parseFloat(document.getElementById('s_m2').value)||0;
+    document.getElementById('mout').innerHTML = `A = ${(f*s).toFixed(2)} Дж`; document.getElementById('mexp').innerHTML = "A = F·s"; }
+
+function calcCurrent(){ let u=parseFloat(document.getElementById('u_e1').value)||0; let r=parseFloat(document.getElementById('r_e1').value)||0;
+    document.getElementById('eout').innerHTML = `I = ${(r?u/r:0).toFixed(3)} А`; document.getElementById('eexp').innerHTML = "I = U/R"; }
+function calcVoltage(){ let i=parseFloat(document.getElementById('i_e1').value)||0; let r=parseFloat(document.getElementById('r_e12').value)||0;
+    document.getElementById('eout').innerHTML = `U = ${(i*r).toFixed(2)} В`; document.getElementById('eexp').innerHTML = "U = I·R"; }
+function calcPowerEl(){ let u=parseFloat(document.getElementById('u_e2').value)||0; let i=parseFloat(document.getElementById('i_e2').value)||0;
+    document.getElementById('eout').innerHTML = `P = ${(u*i).toFixed(2)} Вт`; document.getElementById('eexp').innerHTML = "P = U·I"; }
+function calcWorkEl(){ let u=parseFloat(document.getElementById('u_e22').value)||0; let i=parseFloat(document.getElementById('i_e22').value)||0; let t=parseFloat(document.getElementById('t_e2').value)||0;
+    document.getElementById('eout').innerHTML = `A = ${(u*i*t).toFixed(2)} Дж`; document.getElementById('eexp').innerHTML = "A = U·I·t"; }
+
+function calcHeat(){ let c=parseFloat(document.getElementById('c_t1').value)||0; let m=parseFloat(document.getElementById('m_t1').value)||0; let dt=parseFloat(document.getElementById('dt_t1').value)||0;
+    document.getElementById('tout').innerHTML = `Q = ${(c*m*dt).toFixed(0)} Дж`; document.getElementById('texp').innerHTML = "Q = c m Δt"; }
+function calcLatent(){ let m=parseFloat(document.getElementById('m_t12').value)||0; let l=parseFloat(document.getElementById('l_t1').value)||0;
+    document.getElementById('tout').innerHTML = `Q = ${(l*m).toFixed(0)} Дж`; document.getElementById('texp').innerHTML = "Q = λ m (плавление)"; }
+function calcEfficiency(){ let pol=parseFloat(document.getElementById('a_pol').value)||0; let zat=parseFloat(document.getElementById('a_zat').value)||0;
+    let eta = zat ? (pol/zat*100).toFixed(1) : 0;
+    document.getElementById('tout').innerHTML = `КПД = ${eta} %`; document.getElementById('texp').innerHTML = "КПД = (Aпол / Aзат) × 100%"; }
+
+const converters = {
+    length: {units: ["м","км","см","мм","дм"], factors: [1,1000,0.01,0.001,0.1]},
+    mass: {units: ["кг","г","т","мг"], factors: [1,0.001,1000,0.000001]},
+    time: {units: ["с","мин","ч","мс"], factors: [1,60,3600,0.001]},
+    speed: {units: ["м/с","км/ч","км/с"], factors: [1,3.6,0.001]},
+    force: {units: ["Н","кН","дин","кгс"], factors: [1,0.001,100000,9.81]},
+    energy: {units: ["Дж","кДж","кВт·ч","кал"], factors: [1,0.001,1/3600000,4.1868]},
+    power: {units: ["Вт","кВт","л.с."], factors: [1,0.001,735.5]},
+    pressure: {units: ["Па","кПа","бар","атм"], factors: [1,0.001,100000,101325]}
+};
+
+function updateConverter(){
+    const type = document.getElementById('convType').value;
+    const fromSel = document.getElementById('unitFrom');
+    const toSel = document.getElementById('unitTo');
+    fromSel.innerHTML = ''; toSel.innerHTML = '';
+    converters[type].units.forEach((u,i)=>{
+        let opt1 = new Option(u, i); fromSel.add(opt1);
+        let opt2 = new Option(u, i); toSel.add(opt2);
+    });
+    convertUnits();
+}
+function convertUnits(){
+    const type = document.getElementById('convType').value;
+    const val = parseFloat(document.getElementById('valFrom').value) || 0;
+    const fromIdx = parseInt(document.getElementById('unitFrom').value);
+    const toIdx = parseInt(document.getElementById('unitTo').value);
+    const data = converters[type];
+    const inSI = val * data.factors[fromIdx];
+    const result = inSI / data.factors[toIdx];
+    document.getElementById('siResult').innerHTML = `${val} ${data.units[fromIdx]} = ${result.toFixed(4)} ${data.units[toIdx]}`;
+}
+document.getElementById('convType').dispatchEvent(new Event('change')); // инициализация
+
+let gType='kin', gMode='norm', score=0, curA, timer, timeLeft=30;
+
+function startGame(){
+    score=0; document.getElementById('score').innerHTML=0; show('game');
+    if(gMode==='time'){
+        timeLeft=30; document.getElementById('timer').innerHTML=`Осталось: ${timeLeft}`;
+        timer = setInterval(()=>{ timeLeft--; document.getElementById('timer').innerHTML=`Осталось: ${timeLeft}`;
+            if(timeLeft<=0){ clearInterval(timer); alert(`Время вышло! Очки: ${score}`); show('gameMenu'); }
+        },1000);
+    } else document.getElementById('timer').innerHTML="";
+    nextQ();
+}
+
+function nextQ(){
+    document.getElementById('ans').value = "";
+    document.getElementById('gameHint').innerHTML = "";
+    let type = gType === 'mix' ? ['kin','mech','elect','therm'][Math.floor(Math.random()*4)] : gType;
+
+    if(type==='kin'){
+        let v = Math.floor(Math.random()*20)+5; let t = Math.floor(Math.random()*10)+2;
+        document.getElementById('q').innerHTML = `Скорость ${v} м/с, время ${t} с.<br>Какой путь пройден?`;
+        curA = v * t;
+    } else if(type==='mech'){
+        let m = Math.floor(Math.random()*40)+10; let a = Math.floor(Math.random()*6)+1;
+        document.getElementById('q').innerHTML = `Масса ${m} кг, ускорение ${a} м/с².<br>Найти силу F (Н)`;
+        curA = m * a;
+    } else if(type==='elect'){
+        let u = Math.floor(Math.random()*20)+5; let r = Math.floor(Math.random()*15)+5;
+        document.getElementById('q').innerHTML = `Напряжение ${u} В, сопротивление ${r} Ом.<br>Сила тока I (А)?`;
+        curA = (u / r).toFixed(2);
+    } else if(type==='therm'){
+        let m = Math.floor(Math.random()*5)+1; let dt = Math.floor(Math.random()*40)+10;
+        document.getElementById('q').innerHTML = `Вода (c=4200), масса ${m} кг, Δt = ${dt} °C.<br>Количество теплоты Q (кДж)?`;
+        curA = Math.round(4200 * m * dt / 1000);
+    }
+}
+
+function checkGame(){
+    let user = parseFloat(document.getElementById('ans').value);
+    if(Math.abs(user - curA) < 1){ // допуск для округления
+        score++; document.getElementById('score').innerHTML = score;
+        document.getElementById('gameHint').innerHTML = "Правильно!";
+        setTimeout(nextQ, 800);
+    } else {
+        document.getElementById('gameHint').innerHTML = `Правильно: ${curA}`;
+        setTimeout(nextQ, 2000);
+    }
+}
+</script>
+</body>
+</html>

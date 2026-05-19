@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Сборник Калькуляторов</title>
+
+<style>
+body{margin:0;font-family:Arial;background:linear-gradient(135deg,#4f46e5,#9333ea);color:white;text-align:center;min-height:100vh}
+
+.menu{margin-top:20px}
+
+button{
+padding:12px;margin:5px;border:none;border-radius:14px;
+background:white;color:#4f46e5;font-size:14px;font-weight:bold;
+cursor:pointer;transition:0.3s
+}
+
+button:hover{transform:scale(1.08);box-shadow:0 0 15px white}
+button:active{transform:scale(0.9)}
+
+.box{
+display:none;background:rgba(255,255,255,0.1);
+margin:20px auto;padding:20px;border-radius:20px;
+width:420px;animation:fade 0.3s;border: 1px solid rgba(255,255,255,0.2)
+}
+
+@keyframes fade{ from{opacity:0;transform:translateY(20px)} to{opacity:1} }
+
+input{
+width:85%;padding:10px;margin:5px 0;
+font-size:16px;border:none;border-radius:10px;text-align:center;outline:none
+}
+
+.res-container{margin-top:15px; background:rgba(0,0,0,0.2); padding:15px; border-radius:15px}
+#out, #gout{font-size:20px; font-weight:bold; color:#fff}
+.exp{font-size:13px; color:#ddd; margin-top:5px; font-style:italic}
+
+.sub{margin-top:10px; border-top: 1px solid rgba(255,255,255,0.1); padding-top:10px}
+h3{font-size:15px; margin:10px 0 5px 0; color:#eee}
+.mini-btn{padding:8px; font-size:12px; background:#f0f0f0}
+</style>
+</head>
+
+<body>
+
+<h1>Математика</h1>
+
+<div class="menu">
+<button onclick="show('calc')">Алгебра</button>
+<button onclick="show('geo')">Геометрия</button>
+<button onclick="show('gameMenu')">Тренажёр</button>
+</div>
+
+
+<div id="calc" class="box">
+    <div style="display:flex; flex-wrap:wrap; justify-content:center">
+        <button class="mini-btn" onclick="showSub('a1')">База</button>
+        <button class="mini-btn" onclick="showSub('a2')">Уравнения</button>
+        <button class="mini-btn" onclick="showSub('a3')">Системы</button>
+        <button class="mini-btn" onclick="showSub('a4')">Лог/Корень</button>
+        <button class="mini-btn" onclick="showSub('a5')">Числа</button>
+    </div>
+
+    <div id="a1" class="sub">
+        <h3>Выражение</h3>
+        <input id="disp" placeholder="Пример: (10+5)*2">
+        <button onclick="calcExp()">Решить</button>
+        <h3>Факториал и Степень</h3>
+        <input id="fnum" placeholder="Число (n)"><input id="fpow" placeholder="Степень (для x^y)">
+        <button onclick="calcFact()">n!</button> <button onclick="calcPower()">x^y</button>
+    </div>
+
+    <div id="a2" class="sub" style="display:none">
+        <h3>Квадратное уравнение ax² + bx + c = 0</h3>
+        <input id="kva" placeholder="a"><input id="kvb" placeholder="b"><input id="kvc" placeholder="c">
+        <button onclick="calcKv()">Найти x1, x2</button>
+    </div>
+
+    <div id="a3" class="sub" style="display:none">
+        <h3>Система (2x2)</h3>
+        <p style="font-size:11px">a1x + b1y = c1 | a2x + b2y = c2</p>
+        <input id="s_a1" placeholder="a1" style="width:25%"><input id="s_b1" placeholder="b1" style="width:25%"><input id="s_c1" placeholder="c1" style="width:25%">
+        <input id="s_a2" placeholder="a2" style="width:25%"><input id="s_b2" placeholder="b2" style="width:25%"><input id="s_c2" placeholder="c2" style="width:25%">
+        <button onclick="calcSysLine()">Решить систему</button>
+    </div>
+
+    <div id="a4" class="sub" style="display:none">
+        <h3>Логарифм и Корень</h3>
+        <input id="l1" placeholder="Число"><input id="l2" placeholder="Основание/Степень">
+        <button onclick="calcLog()">log</button> <button onclick="calcRoot()">Корень</button>
+    </div>
+
+    <div id="a5" class="sub" style="display:none">
+        <h3>Свойства чисел</h3>
+        <input id="nnum1" placeholder="Число 1"><input id="nnum2" placeholder="Число 2">
+        <button onclick="calcNod()">НОД / НОК</button>
+        <button onclick="calcPr()">% от числа</button>
+    </div>
+
+    <div class="res-container">
+        <div id="out">...</div>
+        <div id="explain" class="exp">Выберите калькулятор</div>
+    </div>
+</div>
+
+<div id="geo" class="box">
+    <div style="display:flex; flex-wrap:wrap; justify-content:center">
+        <button class="mini-btn" onclick="showSub('g1')">Площадь</button>
+        <button class="mini-btn" onclick="showSub('g2')">3D Объемы</button>
+        <button class="mini-btn" onclick="showSub('g3')">Триг/Пифагор</button>
+    </div>
+
+    <div id="g1" class="sub">
+        <h3>Треугольник (Герон)</h3>
+        <input id="sa" placeholder="Стор. A"><input id="sb" placeholder="Стор. B"><input id="sc" placeholder="Стор. C">
+        <button onclick="geoHeron()">Найти S</button>
+        <h3>Трапеция</h3>
+        <input id="ta" placeholder="Осн. A"><input id="tb" placeholder="Осн. B"><input id="th" placeholder="Высота H">
+        <button onclick="geoTrap()">Найти S</button>
+    </div>
+
+    <div id="g2" class="sub" style="display:none">
+        <h3>Сфера</h3>
+        <input id="sr" placeholder="Радиус R">
+        <button onclick="geoSphere()">Объем V</button>
+        <h3>Конус / Пирамида</h3>
+        <input id="cr" placeholder="Радиус/S осн."><input id="ch" placeholder="Высота H">
+        <button onclick="geoCone()">Объем V</button>
+    </div>
+
+    <div id="g3" class="sub" style="display:none">
+        <h3>Теорема Пифагора</h3>
+        <input id="pa" placeholder="Катет a"><input id="pb" placeholder="Катет b">
+        <button onclick="geoPif()">Найти гипотенузу c</button>
+        <h3>Тригонометрия</h3>
+        <input id="ang" placeholder="Градусы">
+        <button onclick="geoTrig('sin')">sin</button><button onclick="geoTrig('cos')">cos</button>
+    </div>
+
+    <div class="res-container">
+        <div id="gout">...</div>
+        <div id="gexp" class="exp">Результаты геометрии</div>
+    </div>
+</div>
+
+<div id="gameMenu" class="box">
+    <h2>Что будем решать?</h2>
+    <button onclick="gType='easy'">Легкое (+, -, *)</button>
+    <button onclick="gType='ur'">Уравнения (ax+b=c)</button>
+    <button onclick="gType='kv'">Квадратные (x²=a)</button>
+    <button onclick="gType='mix'">Смешанный</button>
+    
+    <h3>Режим</h3>
+    <button onclick="gMode='norm'">Обычный</button>
+    <button onclick="gMode='time'">На время (30с)</button>
+    
+    <br><br>
+    <button onclick="startGame()" style="width:100%; background:#4f46e5; color:white">НАЧАТЬ ТРЕНИРОВКУ</button>
+</div>
+
+<div id="game" class="box">
+    <div id="timer" style="font-size:20px; color:yellow"></div>
+    <p id="q" style="font-size:26px; font-weight:bold"></p>
+    <input id="ans" type="number" placeholder="Ответ">
+    <button onclick="checkGame()" style="width:100%">ПРОВЕРИТЬ</button>
+    <p>Очки: <span id="score">0</span></p>
+    <div id="gameHint" class="exp"></div>
+    <button onclick="show('gameMenu')" style="background:none; color:white; border:1px solid white; margin-top:10px">Выйти</button>
+</div>
+
+<script>
+/* МЕНЮ */
+function show(id){
+    document.querySelectorAll(".box").forEach(x=>x.style.display="none")
+    document.getElementById(id).style.display="block"
+}
+function showSub(id){
+    document.querySelectorAll(".sub").forEach(x=>x.style.display="none")
+    document.getElementById(id).style.display="block"
+}
+
+function calcExp(){
+    try{ out.innerHTML = eval(disp.value); explain.innerHTML="Обычное вычисление." } catch{ out.innerHTML="Ошибка" }
+}
+
+function calcKv(){
+    let a=kva.value, b=kvb.value, c=kvc.value
+    let d = b*b - 4*a*c
+    if(d<0){ out.innerHTML="Корней нет"; explain.innerHTML="D = "+d+" (меньше 0)" }
+    else{
+        let x1 = (-b+Math.sqrt(d))/(2*a), x2 = (-b-Math.sqrt(d))/(2*a)
+        out.innerHTML = `x1=${x1.toFixed(2)}, x2=${x2.toFixed(2)}`
+        explain.innerHTML = `Дискриминант D = ${d}. Найдено через формулу корней.`
+    }
+}
+
+function calcFact(){
+    let r=1; for(let i=1; i<=fnum.value; i++) r*=i
+    out.innerHTML = r; explain.innerHTML = "Произведение всех чисел от 1 до n."
+}
+
+function calcPower(){
+    out.innerHTML = Math.pow(fnum.value, fpow.value)
+    explain.innerHTML = `Число ${fnum.value} возведено в степень ${fpow.value}.`
+}
+
+function calcLog(){
+    out.innerHTML = (Math.log(l1.value)/Math.log(l2.value)).toFixed(4)
+    explain.innerHTML = "Логарифм по основанию " + l2.value
+}
+
+function calcRoot(){
+    out.innerHTML = Math.pow(l1.value, 1/l2.value).toFixed(4)
+    explain.innerHTML = "Корень степени " + l2.value
+}
+
+function calcNod(){
+    let a=Math.abs(nnum1.value), b=Math.abs(nnum2.value)
+    const gcd = (x,y) => y ? gcd(y, x%y) : x
+    let n = gcd(a,b)
+    out.innerHTML = `НОД: ${n}, НОК: ${(a*b)/n}`
+    explain.innerHTML = "Наибольший делитель и наименьшее кратное."
+}
+
+function calcPr(){
+    out.innerHTML = (nnum1.value * nnum2.value / 100)
+    explain.innerHTML = `${nnum2.value}% от числа ${nnum1.value}`
+}
+
+function calcSysLine(){
+    let a1=s_a1.value, b1=s_b1.value, c1=s_c1.value
+    let a2=s_a2.value, b2=s_b2.value, c2=s_c2.value
+    let det = a1*b2 - a2*b1
+    if(det==0){ out.innerHTML="Нет решения"; explain.innerHTML="Определитель равен 0." }
+    else {
+        let x = (c1*b2 - c2*b1)/det, y = (a1*c2 - a2*c1)/det
+        out.innerHTML = `x = ${x}, y = ${y}`
+        explain.innerHTML = "Решено методом Крамера."
+    }
+}
+
+function geoHeron(){
+    let a=Number(sa.value), b=Number(sb.value), c=Number(sc.value)
+    let p=(a+b+c)/2
+    let s=Math.sqrt(p*(p-a)*(p-b)*(p-c))
+    gout.innerHTML = "S = " + s.toFixed(2)
+    gexp.innerHTML = "Формула Герона: √(p(p-a)(p-b)(p-c))"
+}
+
+function geoPif(){
+    gout.innerHTML = "c = " + Math.sqrt(pa.value**2 + pb.value**2).toFixed(2)
+    gexp.innerHTML = "Теорема Пифагора: c = √(a² + b²)"
+}
+
+function geoSphere(){
+    gout.innerHTML = "V = " + (4/3*3.14*Math.pow(sr.value,3)).toFixed(2)
+    gexp.innerHTML = "Объем шара: 4/3 * π * r³"
+}
+
+function geoCone(){
+    gout.innerHTML = "V = " + (1/3*3.14*cr.value**2*ch.value).toFixed(2)
+    gexp.innerHTML = "Объем конуса: 1/3 * π * r² * h"
+}
+
+function geoTrig(t){
+    let rad = ang.value * Math.PI / 180
+    gout.innerHTML = (t=='sin' ? Math.sin(rad) : Math.cos(rad)).toFixed(3)
+    gexp.innerHTML = `Значение ${t} для ${ang.value}°`
+}
+
+let gType='easy', gMode='norm', score=0, curA, timer, time=30
+
+function startGame(){
+    score=0; document.getElementById('score').innerHTML=0; show('game');
+    if(gMode=='time'){
+        time=30; document.getElementById('timer').innerHTML="Осталось: "+time
+        timer = setInterval(()=>{
+            time--; document.getElementById('timer').innerHTML="Осталось: "+time
+            if(time<=0){ clearInterval(timer); alert("Время вышло! Очки: "+score); show('gameMenu') }
+        }, 1000)
+    } else document.getElementById('timer').innerHTML=""
+    nextQ()
+}
+
+function nextQ(){
+    let n1=Math.floor(Math.random()*20)+1, n2=Math.floor(Math.random()*10)+1
+    let type = gType; if(type=='mix') type = ['easy','ur','kv'][Math.floor(Math.random()*3)]
+    ans.value=""; gameHint.innerHTML=""
+
+    if(type=='easy'){
+        let op = Math.random()>0.5?'+':'*'; 
+        q.innerHTML=`${n1} ${op} ${n2} = ?`
+        curA = op=='+'? n1+n2 : n1*n2
+    }
+    if(type=='ur'){
+        let x = Math.floor(Math.random()*10)+1
+        let a = Math.floor(Math.random()*5)+1
+        let b = Math.floor(Math.random()*10)+1
+        let c = a*x + b
+        q.innerHTML = `${a}x + ${b} = ${c}`
+        curA = x
+    }
+    if(type=='kv'){
+        let x = Math.floor(Math.random()*12)+1
+        q.innerHTML = `x² = ${x*x}`
+        curA = x
+    }
+}
+
+function checkGame(){
+    if(ans.value == curA){
+        score++; document.getElementById('score').innerHTML=score
+        gameHint.innerHTML="Верно!"; setTimeout(nextQ, 800)
+    } else {
+        gameHint.innerHTML="Ошибка! Правильно: "+curA; setTimeout(nextQ, 2000)
+    }
+}
+</script>
+</body>
+</html>
+</html>
