@@ -2,10 +2,11 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<title>Сборник Калькуляторов</title>
+<title>Сборник Калькуляторов - Информатика</title>
 <style>
 body{margin:0;font-family:Arial;background:linear-gradient(135deg,#ca8a04,#fde047);color:white;text-align:center;min-height:100vh}
 .menu{margin-top:20px}
+
 button{
 padding:12px;margin:5px;border:none;border-radius:14px;
 background:white;color:#ca8a04;font-size:14px;font-weight:bold;
@@ -13,19 +14,26 @@ cursor:pointer;transition:0.3s
 }
 button:hover{transform:scale(1.08);box-shadow:0 0 15px white}
 button:active{transform:scale(0.9)}
+
 .box{
 display:none;background:rgba(255,255,255,0.1);
 margin:20px auto;padding:20px;border-radius:20px;
 width:420px;animation:fade 0.3s;border:1px solid rgba(255,255,255,0.2)
 }
 @keyframes fade{from{opacity:0;transform:translateY(20px)}to{opacity:1}}
+
 input,select{
 width:85%;padding:10px;margin:5px 0;
 font-size:16px;border:none;border-radius:10px;text-align:center;outline:none
 }
-.res-container{margin-top:15px;background:rgba(0,0,0,0.2);padding:15px;border-radius:15px}
-.out{font-size:20px;font-weight:bold}
-h3{font-size:15px;margin:10px 0 5px 0;color:#eee}
+
+.res-container{margin-top:15px;background:rgba(0,0,0,0.25);padding:15px;border-radius:15px}
+.out{font-size:20px;font-weight:bold;color:#fff}
+.exp{font-size:13px;color:#fff7cc;margin-top:5px;font-style:italic}
+
+.sub{margin-top:10px;border-top:1px solid rgba(255,255,255,0.2);padding-top:10px}
+h3{font-size:15px;margin:10px 0 5px 0;color:#fff}
+.mini-btn{padding:8px;font-size:12px;background:#fff;color:#ca8a04}
 </style>
 </head>
 <body>
@@ -40,61 +48,51 @@ h3{font-size:15px;margin:10px 0 5px 0;color:#eee}
 </div>
 
 <div id="inf1" class="box">
-
-<h3>В 10</h3>
-
-<input id="bin" placeholder="1010">
+<h3>В 10-ю систему</h3>
+<input id="bin" placeholder="1010 (2)">
 <button onclick="binToDec()">2 → 10</button>
 
-<input id="oct" placeholder="12">
+<input id="oct" placeholder="12 (8)">
 <button onclick="octToDec()">8 → 10</button>
 
-<input id="hex" placeholder="1A3">
+<input id="hex" placeholder="1A3 (16)">
 <button onclick="hexToDec()">16 → 10</button>
 
 <hr style="margin:15px;opacity:0.3">
 
-<h3>Из 10</h3>
-
+<h3>Из 10-й системы</h3>
 <input id="dec" placeholder="10">
-
-<button onclick="decToBin()">10 → 2</button>
-<button onclick="decToOct()">10 → 8</button>
-<button onclick="decToHex()">10 → 16</button>
-<button onclick="decToAll()">10 → всё</button>
+<button onclick="decToBin()">→ 2</button>
+<button onclick="decToOct()">→ 8</button>
+<button onclick="decToHex()">→ 16</button>
+<button onclick="decToAll()">→ Все</button>
 
 <div class="res-container">
 <div id="out1" class="out">...</div>
 </div>
-
 </div>
 
 <div id="inf2" class="box">
-<h3>Конвертер</h3>
-
+<h3>Конвертер единиц информации</h3>
 <input id="value" type="number" placeholder="Введите число">
-
 <select id="unitFrom">
-<option value="bit">Бит</option>
+<option value="bit">бит</option>
 <option value="byte">Байт</option>
 <option value="kb">КБ</option>
 <option value="mb">МБ</option>
 <option value="gb">ГБ</option>
 <option value="tb">ТБ</option>
 </select>
-
 →
-
 <select id="unitTo">
-<option value="bit">Бит</option>
 <option value="byte">Байт</option>
+<option value="bit">бит</option>
 <option value="kb">КБ</option>
 <option value="mb">МБ</option>
 <option value="gb">ГБ</option>
 <option value="tb">ТБ</option>
 </select>
-
-<br>
+<br><br>
 <button onclick="convertBytes()">Перевести</button>
 
 <div class="res-container">
@@ -102,7 +100,9 @@ h3{font-size:15px;margin:10px 0 5px 0;color:#eee}
 </div>
 </div>
 
+<!-- ASCII -->
 <div id="inf3" class="box">
+<h3>ASCII / Unicode</h3>
 <input id="char" maxlength="1" placeholder="A">
 <button onclick="charToAscii()">Символ → код</button>
 
@@ -123,161 +123,162 @@ h3{font-size:15px;margin:10px 0 5px 0;color:#eee}
 
 <h3>Режим</h3>
 <button onclick="gMode='norm'">Обычный</button>
-<button onclick="gMode='time'">На время</button>
+<button onclick="gMode='time'">На время (30 сек)</button>
 
 <br><br>
-<button onclick="startGame()" style="width:100%;background:#ca8a04;color:white">
-НАЧАТЬ
-</button>
+<button onclick="startGame()" style="width:100%;background:#ca8a04;color:white;font-size:18px">НАЧАТЬ ТРЕНИРОВКУ</button>
 </div>
 
 <div id="game" class="box">
-<div id="timer"></div>
+<div id="timer" style="font-size:20px;color:yellow"></div>
 <p id="q" style="font-size:26px;font-weight:bold"></p>
-<input id="ans" placeholder="Ответ">
+<input id="ans" type="text" placeholder="Ответ">
 <button onclick="checkGame()" style="width:100%">ПРОВЕРИТЬ</button>
 <p>Очки: <span id="score">0</span></p>
-<button onclick="show('gameMenu')" style="background:none;color:white;border:1px solid white">
-Выйти
-</button>
+<div id="gameHint" class="exp"></div>
+<button onclick="show('gameMenu')" style="background:none;color:white;border:1px solid white;margin-top:10px">Выйти</button>
 </div>
 
 <script>
 function show(id){
-document.querySelectorAll(".box").forEach(x=>x.style.display="none")
-document.getElementById(id).style.display="block"
+    document.querySelectorAll(".box").forEach(x=>x.style.display="none");
+    document.getElementById(id).style.display="block";
 }
 
 function binToDec(){
-let v=document.getElementById('bin').value
-document.getElementById('out1').innerHTML=parseInt(v,2)||"Ошибка"
+    let v = document.getElementById('bin').value;
+    document.getElementById('out1').innerHTML = parseInt(v, 2) || "Ошибка";
 }
 function octToDec(){
-let v=document.getElementById('oct').value
-document.getElementById('out1').innerHTML=parseInt(v,8)||"Ошибка"
+    let v = document.getElementById('oct').value;
+    document.getElementById('out1').innerHTML = parseInt(v, 8) || "Ошибка";
 }
 function hexToDec(){
-let v=document.getElementById('hex').value
-document.getElementById('out1').innerHTML=parseInt(v,16)||"Ошибка"
+    let v = document.getElementById('hex').value;
+    document.getElementById('out1').innerHTML = parseInt(v, 16) || "Ошибка";
 }
 
 function decToBin(){
-let v=parseInt(document.getElementById('dec').value)
-document.getElementById('out1').innerHTML=isNaN(v)?"Ошибка":v.toString(2)
+    let v = parseInt(document.getElementById('dec').value);
+    document.getElementById('out1').innerHTML = isNaN(v) ? "Ошибка" : v.toString(2);
 }
 function decToOct(){
-let v=parseInt(document.getElementById('dec').value)
-document.getElementById('out1').innerHTML=isNaN(v)?"Ошибка":v.toString(8)
+    let v = parseInt(document.getElementById('dec').value);
+    document.getElementById('out1').innerHTML = isNaN(v) ? "Ошибка" : v.toString(8);
 }
 function decToHex(){
-let v=parseInt(document.getElementById('dec').value)
-document.getElementById('out1').innerHTML=isNaN(v)?"Ошибка":v.toString(16).toUpperCase()
+    let v = parseInt(document.getElementById('dec').value);
+    document.getElementById('out1').innerHTML = isNaN(v) ? "Ошибка" : v.toString(16).toUpperCase();
 }
 function decToAll(){
-let v=parseInt(document.getElementById('dec').value)
-if(isNaN(v)){document.getElementById('out1').innerHTML="Ошибка";return}
-document.getElementById('out1').innerHTML =
-"2: "+v.toString(2)+"<br>"+
-"8: "+v.toString(8)+"<br>"+
-"16: "+v.toString(16).toUpperCase()
+    let v = parseInt(document.getElementById('dec').value);
+    if(isNaN(v)){ document.getElementById('out1').innerHTML = "Ошибка"; return; }
+    document.getElementById('out1').innerHTML = 
+        "2: " + v.toString(2) + "<br>" +
+        "8: " + v.toString(8) + "<br>" +
+        "16: " + v.toString(16).toUpperCase();
 }
 
 function convertBytes(){
-let value=parseFloat(document.getElementById('value').value)
-let from=document.getElementById('unitFrom').value
-let to=document.getElementById('unitTo').value
+    let value = parseFloat(document.getElementById('value').value);
+    let from = document.getElementById('unitFrom').value;
+    let to = document.getElementById('unitTo').value;
+    if(isNaN(value)){ document.getElementById('out2').innerHTML = "Ошибка"; return; }
 
-if(isNaN(value)){
-document.getElementById('out2').innerHTML="Ошибка"
-return
-}
+    let bytes = 0;
+    if(from==="bit") bytes = value/8;
+    else if(from==="byte") bytes = value;
+    else if(from==="kb") bytes = value*1024;
+    else if(from==="mb") bytes = value*1024**2;
+    else if(from==="gb") bytes = value*1024**3;
+    else if(from==="tb") bytes = value*1024**4;
 
-let bytes=0
-if(from==="bit")bytes=value/8
-if(from==="byte")bytes=value
-if(from==="kb")bytes=value*1024
-if(from==="mb")bytes=value*1024**2
-if(from==="gb")bytes=value*1024**3
-if(from==="tb")bytes=value*1024**4
+    let result = 0;
+    if(to==="bit") result = bytes*8;
+    else if(to==="byte") result = bytes;
+    else if(to==="kb") result = bytes/1024;
+    else if(to==="mb") result = bytes/1024**2;
+    else if(to==="gb") result = bytes/1024**3;
+    else if(to==="tb") result = bytes/1024**4;
 
-let result=0
-if(to==="bit")result=bytes*8
-if(to==="byte")result=bytes
-if(to==="kb")result=bytes/1024
-if(to==="mb")result=bytes/1024**2
-if(to==="gb")result=bytes/1024**3
-if(to==="tb")result=bytes/1024**4
-
-document.getElementById('out2').innerHTML=result
+    document.getElementById('out2').innerHTML = result.toFixed(2);
 }
 
 function charToAscii(){
-let ch=document.getElementById('char').value
-document.getElementById('out3').innerHTML=ch?ch.charCodeAt(0):"Ошибка"
+    let ch = document.getElementById('char').value;
+    document.getElementById('out3').innerHTML = ch ? ch.charCodeAt(0) : "Ошибка";
 }
 function asciiToChar(){
-let cd=parseInt(document.getElementById('code').value)
-document.getElementById('out3').innerHTML=isNaN(cd)?"Ошибка":String.fromCharCode(cd)
+    let cd = parseInt(document.getElementById('code').value);
+    document.getElementById('out3').innerHTML = isNaN(cd) ? "Ошибка" : String.fromCharCode(cd);
 }
 
-let gType='bin',gMode='norm',score=0,curA,timer,time=30
+let gType='mix', gMode='norm', score=0, curA, timer, time=30;
 
 function startGame(){
-score=0
-document.getElementById('score').innerHTML=0
-show('game')
-
-if(gMode==='time'){
-time=30
-document.getElementById('timer').innerHTML="Осталось: "+time
-timer=setInterval(()=>{
-time--
-document.getElementById('timer').innerHTML="Осталось: "+time
-if(time<=0){
-clearInterval(timer)
-alert("Очки: "+score)
-show('gameMenu')
-}
-},1000)
-}else{
-document.getElementById('timer').innerHTML=""
-}
-
-nextQ()
+    score = 0;
+    document.getElementById('score').innerHTML = 0;
+    show('game');
+    
+    if(gMode === 'time'){
+        time = 30;
+        document.getElementById('timer').innerHTML = "Осталось: " + time;
+        timer = setInterval(() => {
+            time--;
+            document.getElementById('timer').innerHTML = "Осталось: " + time;
+            if(time <= 0){
+                clearInterval(timer);
+                alert("Время вышло! Очки: " + score);
+                show('gameMenu');
+            }
+        }, 1000);
+    } else {
+        document.getElementById('timer').innerHTML = "";
+    }
+    nextQ();
 }
 
 function nextQ(){
-document.getElementById('ans').value=""
-let type=gType
-if(type==='mix')type=['bin','byte','ascii'][Math.floor(Math.random()*3)]
+    document.getElementById('ans').value = "";
+    document.getElementById('gameHint').innerHTML = "";
+    
+    let type = (gType === 'mix') ? 
+        ['bin','byte','ascii'][Math.floor(Math.random()*3)] : gType;
 
-if(type==='bin'){
-let n=Math.floor(Math.random()*127)+1
-document.getElementById('q').innerHTML=`${n} → 2`
-curA=n.toString(2)
-}
-if(type==='byte'){
-let mb=Math.floor(Math.random()*5)+1
-document.getElementById('q').innerHTML=`${mb} МБ → байт`
-curA=mb*1024*1024
-}
-if(type==='ascii'){
-let ch=String.fromCharCode(65+Math.floor(Math.random()*26))
-document.getElementById('q').innerHTML=`"${ch}" → код`
-curA=ch.charCodeAt(0)
-}
+    if(type === 'bin'){
+        let n = Math.floor(Math.random()*255) + 1;
+        document.getElementById('q').innerHTML = `${n}₁₀ = ?₂`;
+        curA = n.toString(2);
+    }
+    else if(type === 'byte'){
+        let mb = Math.floor(Math.random()*10) + 1;
+        document.getElementById('q').innerHTML = `${mb} МБ = ? байт`;
+        curA = mb * 1024 * 1024;
+    }
+    else if(type === 'ascii'){
+        let code = 65 + Math.floor(Math.random()*26);
+        let ch = String.fromCharCode(code);
+        document.getElementById('q').innerHTML = `"${ch}" → код ASCII?`;
+        curA = code;
+    }
 }
 
 function checkGame(){
-if(document.getElementById('ans').value==curA){
-score++
-document.getElementById('score').innerHTML=score
-setTimeout(nextQ,500)
-}else{
-setTimeout(nextQ,1000)
+    let user = document.getElementById('ans').value.trim();
+    if(user == curA){
+        score++;
+        document.getElementById('score').innerHTML = score;
+        document.getElementById('gameHint').innerHTML = "Верно!";
+        setTimeout(nextQ, 800);
+    } else {
+        document.getElementById('gameHint').innerHTML = `Ошибка! Правильно: ${curA}`;
+        setTimeout(nextQ, 2000);
+    }
 }
-}
-</script>
 
+window.onload = () => {
+    show('inf1');
+};
+</script>
 </body>
 </html>
