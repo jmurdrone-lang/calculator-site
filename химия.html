@@ -2,10 +2,11 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<title>Сборник Калькуляторов</title>
+<title>Сборник Калькуляторов - Химия</title>
 <style>
 body{margin:0;font-family:Arial;background:linear-gradient(135deg,#166534,#4ade80);color:white;text-align:center;min-height:100vh}
 .menu{margin-top:20px}
+
 button{
 padding:12px;margin:5px;border:none;border-radius:14px;
 background:white;color:#166534;font-size:14px;font-weight:bold;
@@ -13,18 +14,23 @@ cursor:pointer;transition:0.3s
 }
 button:hover{transform:scale(1.08);box-shadow:0 0 15px white}
 button:active{transform:scale(0.9)}
+
 .box{
 display:none;background:rgba(255,255,255,0.1);
 margin:20px auto;padding:20px;border-radius:20px;
 width:420px;animation:fade 0.3s;border:1px solid rgba(255,255,255,0.2)
 }
 @keyframes fade{from{opacity:0;transform:translateY(20px)}to{opacity:1}}
-input{
+
+input, select{
 width:85%;padding:10px;margin:5px 0;
 font-size:16px;border:none;border-radius:10px;text-align:center;outline:none
 }
+
 .res-container{margin-top:15px;background:rgba(0,0,0,0.2);padding:15px;border-radius:15px}
-.out{font-size:20px;font-weight:bold}
+.out{font-size:20px;font-weight:bold;color:#fff}
+.exp{font-size:13px;color:#ddd;margin-top:5px;font-style:italic}
+
 .sub{margin-top:10px;border-top:1px solid rgba(255,255,255,0.1);padding-top:10px}
 h3{font-size:15px;margin:10px 0 5px 0;color:#eee}
 .mini-btn{padding:8px;font-size:12px;background:#f0f0f0;color:#166534}
@@ -41,6 +47,7 @@ h3{font-size:15px;margin:10px 0 5px 0;color:#eee}
 <button onclick="show('gameMenu')">Тренажёр</button>
 </div>
 
+<!-- Расчёты -->
 <div id="chem" class="box">
 <div style="display:flex;flex-wrap:wrap;justify-content:center">
 <button class="mini-btn" onclick="showSub('c1')">Молярная масса</button>
@@ -49,23 +56,26 @@ h3{font-size:15px;margin:10px 0 5px 0;color:#eee}
 </div>
 
 <div id="c1" class="sub">
-<input id="mm" placeholder="H2O">
+<h3>Молярная масса</h3>
+<input id="mm" placeholder="H2O или CO2">
 <button onclick="calcMolarMass()">Рассчитать</button>
 </div>
 
 <div id="c2" class="sub" style="display:none">
-<input id="m_n" placeholder="m"><input id="M_n" placeholder="M">
-<button onclick="calcAmount()">n</button>
+<h3>Количество вещества</h3>
+<input id="m_n" placeholder="Масса (г)"><input id="M_n" placeholder="Молярная масса">
+<button onclick="calcAmount()">n = m/M</button>
 
 <input id="n_m" placeholder="n"><input id="M_m" placeholder="M">
-<button onclick="calcMass()">m</button>
+<button onclick="calcMass()">m = n·M</button>
 </div>
 
 <div id="c3" class="sub" style="display:none">
-<input id="n_v" placeholder="n">
-<button onclick="calcVolume()">V</button>
+<h3>Объём газа (н.у.)</h3>
+<input id="n_v" placeholder="n (моль)">
+<button onclick="calcVolume()">V (л)</button>
 
-<input id="v_n" placeholder="V">
+<input id="v_n" placeholder="V (л)">
 <button onclick="calcAmountGas()">n</button>
 </div>
 
@@ -74,22 +84,25 @@ h3{font-size:15px;margin:10px 0 5px 0;color:#eee}
 </div>
 </div>
 
+<!-- Растворы -->
 <div id="sol" class="box">
 <div style="display:flex;flex-wrap:wrap;justify-content:center">
 <button class="mini-btn" onclick="showSub('s1')">Массовая доля</button>
-<button class="mini-btn" onclick="showSub('s2')">Концентрация</button>
+<button class="mini-btn" onclick="showSub('s2')">Молярная концентрация</button>
 </div>
 
 <div id="s1" class="sub">
-<input id="mv" placeholder="m вещества">
-<input id="mr" placeholder="m раствора">
-<button onclick="calcMassFraction()">ω</button>
+<h3>Массовая доля ω</h3>
+<input id="mv" placeholder="m вещества (г)">
+<input id="mr" placeholder="m раствора (г)">
+<button onclick="calcMassFraction()">ω (%)</button>
 </div>
 
 <div id="s2" class="sub" style="display:none">
-<input id="n_c" placeholder="n">
-<input id="v_c" placeholder="V">
-<button onclick="calcMolarity()">C</button>
+<h3>Молярная концентрация</h3>
+<input id="n_c" placeholder="n (моль)">
+<input id="v_c" placeholder="V (л)">
+<button onclick="calcMolarity()">C (моль/л)</button>
 </div>
 
 <div class="res-container">
@@ -97,10 +110,12 @@ h3{font-size:15px;margin:10px 0 5px 0;color:#eee}
 </div>
 </div>
 
+<!-- Реакции -->
 <div id="react" class="box">
-<input id="m_teor" placeholder="теор">
-<input id="m_prakt" placeholder="практ">
-<button onclick="calcYield()">η</button>
+<h3>Выход продукта</h3>
+<input id="m_teor" placeholder="Теоретическая масса">
+<input id="m_prakt" placeholder="Практическая масса">
+<button onclick="calcYield()">Выход η (%)</button>
 
 <div class="res-container">
 <div id="out3" class="out">...</div>
@@ -108,134 +123,183 @@ h3{font-size:15px;margin:10px 0 5px 0;color:#eee}
 </div>
 
 <div id="gameMenu" class="box">
-<h2>Тренажёр</h2>
+<h2>Что будем решать?</h2>
 <button onclick="gType='mol'">Молярная масса</button>
-<button onclick="gType='amount'">Количество</button>
+<button onclick="gType='amount'">Количество вещества</button>
+<button onclick="gType='gas'">Газы</button>
 <button onclick="gType='solution'">Растворы</button>
 <button onclick="gType='mix'">Смешанный</button>
 
+<h3>Режим</h3>
 <button onclick="gMode='norm'">Обычный</button>
-<button onclick="gMode='time'">На время</button>
+<button onclick="gMode='time'">На время (30 сек)</button>
 
-<button onclick="startGame()" style="width:100%;background:#166534;color:white">СТАРТ</button>
+<br><br>
+<button onclick="startGame()" style="width:100%;background:#166534;color:white;font-size:18px">НАЧАТЬ ТРЕНИРОВКУ</button>
 </div>
 
 <div id="game" class="box">
-<div id="timer"></div>
-<p id="q"></p>
-<input id="ans">
-<button onclick="checkGame()">ПРОВЕРИТЬ</button>
+<div id="timer" style="font-size:20px;color:yellow"></div>
+<p id="q" style="font-size:26px;font-weight:bold"></p>
+<input id="ans" type="number" placeholder="Ответ">
+<button onclick="checkGame()" style="width:100%">ПРОВЕРИТЬ</button>
 <p>Очки: <span id="score">0</span></p>
-<div id="gameHint"></div>
-<button onclick="show('gameMenu')">Выйти</button>
+<div id="gameHint" class="exp"></div>
+<button onclick="show('gameMenu')" style="background:none;color:white;border:1px solid white;margin-top:10px">Выйти</button>
 </div>
 
 <script>
 function show(id){
-document.querySelectorAll(".box").forEach(x=>x.style.display="none")
-document.getElementById(id).style.display="block"
+    document.querySelectorAll(".box").forEach(x=>x.style.display="none");
+    document.getElementById(id).style.display="block";
 }
 function showSub(id){
-document.querySelectorAll(".sub").forEach(x=>x.style.display="none")
-document.getElementById(id).style.display="block"
+    document.querySelectorAll(".sub").forEach(x=>x.style.display="none");
+    document.getElementById(id).style.display="block";
 }
 
 function calcMolarMass(){
-let f=mm.value.toUpperCase()
-let m=0
-const a={H:1,O:16,C:12,N:14,Na:23,Cl:35.5}
-let e=''
-for(let i=0;i<f.length;i++){
-if(/[A-Z]/.test(f[i]))e=f[i]
-else if(/[a-z]/.test(f[i]))e+=f[i]
-let n=''
-while(i+1<f.length&&/[0-9]/.test(f[i+1]))n+=f[++i]
-let c=n?parseInt(n):1
-if(a[e])m+=a[e]*c
-}
-out1.innerHTML=m.toFixed(2)
+    let f = document.getElementById('mm').value.toUpperCase().trim();
+    let m = 0;
+    const atoms = {H:1, O:16, C:12, N:14, Na:23, Cl:35.5, S:32, Fe:56, Ca:40, K:39, Mg:24, Al:27};
+    let i = 0;
+    while(i < f.length){
+        let e = f[i];
+        i++;
+        if(i < f.length && /[a-z]/.test(f[i])) e += f[i++];
+        let num = '';
+        while(i < f.length && /[0-9]/.test(f[i])) num += f[i++];
+        let count = num ? parseInt(num) : 1;
+        if(atoms[e]) m += atoms[e] * count;
+    }
+    document.getElementById('out1').innerHTML = m.toFixed(2) + " г/моль";
 }
 
-function calcAmount(){
-let m=parseFloat(m_n.value)||0
-let M=parseFloat(M_n.value)||0
-out1.innerHTML=M?(m/M).toFixed(3):"0"
+function calcAmount(){ 
+    let m = parseFloat(document.getElementById('m_n').value)||0;
+    let M = parseFloat(document.getElementById('M_n').value)||0;
+    document.getElementById('out1').innerHTML = M ? (m/M).toFixed(3) : "0";
 }
-function calcMass(){
-let n=parseFloat(n_m.value)||0
-let M=parseFloat(M_m.value)||0
-out1.innerHTML=(n*M).toFixed(2)
+function calcMass(){ 
+    let n = parseFloat(document.getElementById('n_m').value)||0;
+    let M = parseFloat(document.getElementById('M_m').value)||0;
+    document.getElementById('out1').innerHTML = (n*M).toFixed(2);
 }
-function calcVolume(){
-let n=parseFloat(n_v.value)||0
-out1.innerHTML=(n*22.4).toFixed(2)
+function calcVolume(){ 
+    let n = parseFloat(document.getElementById('n_v').value)||0;
+    document.getElementById('out1').innerHTML = (n*22.4).toFixed(2) + " л";
 }
-function calcAmountGas(){
-let v=parseFloat(v_n.value)||0
-out1.innerHTML=(v/22.4).toFixed(3)
+function calcAmountGas(){ 
+    let v = parseFloat(document.getElementById('v_n').value)||0;
+    document.getElementById('out1').innerHTML = (v/22.4).toFixed(3);
 }
 
 function calcMassFraction(){
-let mv=parseFloat(document.getElementById('mv').value)||0
-let mr=parseFloat(document.getElementById('mr').value)||0
-out2.innerHTML=mr?(mv/mr*100).toFixed(2):"0"
+    let mv = parseFloat(document.getElementById('mv').value)||0;
+    let mr = parseFloat(document.getElementById('mr').value)||0;
+    document.getElementById('out2').innerHTML = mr ? (mv/mr*100).toFixed(2) + " %" : "0";
 }
 function calcMolarity(){
-let n=parseFloat(n_c.value)||0
-let v=parseFloat(v_c.value)||0
-out2.innerHTML=v?(n/v).toFixed(2):"0"
+    let n = parseFloat(document.getElementById('n_c').value)||0;
+    let v = parseFloat(document.getElementById('v_c').value)||0;
+    document.getElementById('out2').innerHTML = v ? (n/v).toFixed(2) : "0";
 }
 function calcYield(){
-let t=parseFloat(m_teor.value)||0
-let p=parseFloat(m_prakt.value)||0
-out3.innerHTML=t?(p/t*100).toFixed(1):"0"
+    let t = parseFloat(document.getElementById('m_teor').value)||0;
+    let p = parseFloat(document.getElementById('m_prakt').value)||0;
+    document.getElementById('out3').innerHTML = t ? (p/t*100).toFixed(1) + " %" : "0";
 }
 
-let gType='mol',gMode='norm',score=0,curA,timer,time=30
+let gType='mix', gMode='norm', score=0, curA, timer, time=30;
 
 function startGame(){
-score=0;scoreEl=score;scoreEl=0
-document.getElementById('score').innerHTML=0
-show('game')
-if(gMode==='time'){
-time=30
-timer=setInterval(()=>{
-time--
-if(time<=0){clearInterval(timer);alert(score);show('gameMenu')}
-},1000)
-}
-nextQ()
+    score = 0;
+    document.getElementById('score').innerHTML = 0;
+    show('game');
+    
+    if(gMode === 'time'){
+        time = 30;
+        document.getElementById('timer').innerHTML = "Осталось: " + time;
+        timer = setInterval(() => {
+            time--;
+            document.getElementById('timer').innerHTML = "Осталось: " + time;
+            if(time <= 0){
+                clearInterval(timer);
+                alert("Время вышло! Очки: " + score);
+                show('gameMenu');
+            }
+        }, 1000);
+    } else {
+        document.getElementById('timer').innerHTML = "";
+    }
+    nextQ();
 }
 
 function nextQ(){
-ans.value=""
-let t=gType
-if(t==='mix')t=['mol','amount','solution'][Math.floor(Math.random()*3)]
+    document.getElementById('ans').value = "";
+    document.getElementById('gameHint').innerHTML = "";
+    
+    let type = (gType === 'mix') ? 
+        ['mol','amount','gas','solution'][Math.floor(Math.random()*4)] : gType;
 
-if(t==='mol'){
-q.innerHTML="H2O"
-curA=18
+    if(type === 'mol'){
+        const compounds = ["H2O","CO2","NaCl","H2SO4","CH4","NH3","O2","C6H12O6"];
+        let comp = compounds[Math.floor(Math.random()*compounds.length)];
+        document.getElementById('q').innerHTML = `Молярная масса ${comp} = ? г/моль`;
+        curA = calcRealMolar(comp); // реальное значение
+    }
+    else if(type === 'amount'){
+        let m = Math.floor(Math.random()*200)+50;
+        let M = Math.floor(Math.random()*100)+50;
+        document.getElementById('q').innerHTML = `m = ${m} г, M = ${M} г/моль → n = ?`;
+        curA = Math.round((m/M)*1000)/1000;
+    }
+    else if(type === 'gas'){
+        let n = Math.floor(Math.random()*5)+1;
+        document.getElementById('q').innerHTML = `${n} моль газа (н.у.) → V = ? л`;
+        curA = n * 22.4;
+    }
+    else if(type === 'solution'){
+        let mv = Math.floor(Math.random()*50)+10;
+        let mr = Math.floor(Math.random()*200)+100;
+        document.getElementById('q').innerHTML = `m(в-ва)=${mv}г, m(р-ра)=${mr}г → ω = ? %`;
+        curA = Math.round((mv/mr)*100);
+    }
 }
-if(t==='amount'){
-q.innerHTML="m=100 M=100"
-curA=1
-}
-if(t==='solution'){
-q.innerHTML="10 из 100"
-curA=10
-}
+
+function calcRealMolar(formula){
+    const atoms = {H:1,O:16,C:12,N:14,Na:23,Cl:35.5,S:32,Fe:56,Ca:40,K:39,Mg:24,Al:27};
+    let mass = 0;
+    let i = 0;
+    while(i < formula.length){
+        let e = formula[i];
+        i++;
+        if(i < formula.length && /[a-z]/.test(formula[i])) e += formula[i++];
+        let num = '';
+        while(i < formula.length && /[0-9]/.test(formula[i])) num += formula[i++];
+        let count = num ? parseInt(num) : 1;
+        if(atoms[e]) mass += atoms[e] * count;
+    }
+    return mass;
 }
 
 function checkGame(){
-if(parseFloat(ans.value)==curA){
-score++
-document.getElementById('score').innerHTML=score
-nextQ()
-}else{
-nextQ()
+    let userAns = parseFloat(document.getElementById('ans').value);
+    if(Math.abs(userAns - curA) < 0.1){  // небольшая погрешность
+        score++;
+        document.getElementById('score').innerHTML = score;
+        document.getElementById('gameHint').innerHTML = "Верно!";
+        setTimeout(nextQ, 800);
+    } else {
+        document.getElementById('gameHint').innerHTML = `Ошибка! Правильно: ${curA}`;
+        setTimeout(nextQ, 2000);
+    }
 }
-}
-</script>
 
+window.onload = () => {
+    show('chem');
+    showSub('c1');
+};
+</script>
 </body>
 </html>
