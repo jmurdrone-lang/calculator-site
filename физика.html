@@ -178,7 +178,7 @@ h3{font-size:16px;margin:12px 0 6px 0;color:#ddd}
 </div>
 
 <div id="gameMenu" class="box">
-    <h2>Тренажёр по физике</h2>
+    <h2>Что будем решать?</h2>
     <button onclick="gType='kin'">Кинематика</button>
     <button onclick="gType='mech'">Механика</button>
     <button onclick="gType='elect'">Электричество</button>
@@ -332,7 +332,7 @@ function checkGame(){
         document.getElementById('gameHint').innerHTML = "Правильно!";
         setTimeout(nextQ, 800);
     } else {
-        document.getElementById('gameHint').innerHTML = `Правильно: ${curA}`;
+        document.getElementById('gameHint').innerHTML = `Ошибка! Правильно: ${curA}`;
         setTimeout(nextQ, 2000);
     }
 }
